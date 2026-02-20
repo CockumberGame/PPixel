@@ -2,7 +2,7 @@ import bpy
 from bpy.types import Operator
 from bpy_extras.io_utils import ImportHelper
 
-from .node_builder import attach_processor
+from .node_builder import attach_processor, sync_active_material_nodes
 from ..palette.manager import PALETTE_MANAGER
 
 
@@ -28,12 +28,40 @@ class PST_OT_AddPixelProcessor(Operator):
         return {"FINISHED"}
 
 
+class PST_OT_SyncPixelProcessor(Operator):
+    bl_idname = "pst.sync_pixel_processor"
+    bl_label = "Sync Settings To Material"
+    bl_description = "Apply current panel settings to Pixel Shader Toolkit nodes in active material"
+
+    def execute(self, context):
+        updated = sync_active_material_nodes(context, context.scene.pst_settings)
+        self.report({"INFO"}, f"Synced {updated} PST node(s)")
+        return {"FINISHED"}
+
+
+class PST_OT_OpenShadingWorkspace(Operator):
+    bl_idname = "pst.open_shading_workspace"
+    bl_label = "Open Shading Workspace"
+    bl_description = "Switch to Blender Shading workspace where full PST controls are available"
+
+    def execute(self, context):
+        workspace = bpy.data.workspaces.get("Shading")
+        if not workspace:
+            self.report({"WARNING"}, "Shading workspace not found")
+            return {"CANCELLED"}
+
+        context.window.workspace = workspace
+        self.report({"INFO"}, "Switched to Shading workspace")
+        return {"FINISHED"}
+
+
 class PST_OT_RefreshPaletteList(Operator):
     bl_idname = "pst.refresh_palettes"
     bl_label = "Refresh Palettes"
 
-    def execute(self, _context):
+    def execute(self, context):
         PALETTE_MANAGER.refresh()
+        sync_active_material_nodes(context, context.scene.pst_settings)
         self.report({"INFO"}, "Palettes reloaded")
         return {"FINISHED"}
 
@@ -45,9 +73,10 @@ class PST_OT_ImportGPLPalette(Operator, ImportHelper):
 
     filter_glob: bpy.props.StringProperty(default="*.gpl", options={"HIDDEN"})
 
-    def execute(self, _context):
+    def execute(self, context):
         try:
             imported = PALETTE_MANAGER.import_gpl(self.filepath)
+            sync_active_material_nodes(context, context.scene.pst_settings)
         except ValueError as exc:
             self.report({"ERROR"}, str(exc))
             return {"CANCELLED"}
@@ -62,9 +91,10 @@ class PST_OT_ImportHexPalette(Operator, ImportHelper):
 
     filter_glob: bpy.props.StringProperty(default="*.txt", options={"HIDDEN"})
 
-    def execute(self, _context):
+    def execute(self, context):
         try:
             imported = PALETTE_MANAGER.import_hex_list(self.filepath)
+            sync_active_material_nodes(context, context.scene.pst_settings)
         except ValueError as exc:
             self.report({"ERROR"}, str(exc))
             return {"CANCELLED"}
