@@ -1,8 +1,14 @@
 DEFAULT_THEME = {
-    "style": "neutral_flat",
-    "panel_background": "#E9E9E9",
-    "panel_border": "#4B4B4B",
-    "accent": "#5A84FF",
-    "text": "#1A1A1A",
-    "slider_scale_y": 1.2,
+    "style": "retro_flat_commercial",
+    "slider_scale_y": 1.25,
+    "section_scale_y": 1.05,
+    "show_icons": True,
+}
+
+SECTION_ICONS = {
+    "main": "NODE_MATERIAL",
+    "color": "COLOR",
+    "palette": "SEQ_COLOR_04",
+    "bake": "RENDER_STILL",
+    "quick": "TOOL_SETTINGS",
 }

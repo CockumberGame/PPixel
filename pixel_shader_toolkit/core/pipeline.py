@@ -1,6 +1,11 @@
 import bpy
 from bpy.types import Operator
-from bpy_extras.io_utils import ImportHelper
+
+try:
+    from bpy_extras.io_utils import ImportHelper
+except Exception:  # Blender build-specific fallback
+    class ImportHelper:  # type: ignore
+        pass
 
 from .node_builder import attach_processor, sync_active_material_nodes
 from ..palette.manager import PALETTE_MANAGER

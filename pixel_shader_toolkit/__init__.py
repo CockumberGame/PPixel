@@ -1,9 +1,9 @@
 bl_info = {
     "name": "Pixel Shader Toolkit",
     "author": "PPixel",
-    "version": (0, 2, 0),
-    "blender": (3, 6, 0),
-    "location": "3D View (N) & Shader Editor (N) > Pixel Toolkit",
+    "version": (0, 3, 0),
+    "blender": (5, 0, 0),
+    "location": "N-panel: 3D View / Shader Editor > Pixel Toolkit",
     "description": "Procedural pixel/palette/dither shader processor for materials",
     "category": "Material",
 }

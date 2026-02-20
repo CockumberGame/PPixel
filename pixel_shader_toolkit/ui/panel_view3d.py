@@ -1,5 +1,7 @@
 from bpy.types import Panel
 
+from .theme import SECTION_ICONS
+
 
 class PST_PT_View3DQuickPanel(Panel):
     bl_label = "Pixel Shader Toolkit"
@@ -13,15 +15,16 @@ class PST_PT_View3DQuickPanel(Panel):
         settings = context.scene.pst_settings
 
         info = layout.box()
-        info.label(text="You are in 3D View N-panel.")
-        info.label(text="Full controls live in Shader Editor > N > Pixel Toolkit.")
+        info.label(text="Quick Access", icon=SECTION_ICONS["quick"])
+        info.label(text="Full controls: Shader Editor > N > Pixel Toolkit")
 
         row = layout.row(align=True)
+        row.scale_y = 1.1
         row.operator("pst.open_shading_workspace", icon="SHADING_TEXTURE")
         row.operator("pst.add_pixel_processor", icon="NODETREE")
 
         quick = layout.box()
-        quick.label(text="Quick controls")
+        quick.label(text="Quick Tweaks")
         quick.prop(settings, "pixel_size")
         quick.prop(settings, "palette_impact")
         quick.prop(settings, "dither_strength")
