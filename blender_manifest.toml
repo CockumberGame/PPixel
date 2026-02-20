@@ -1,0 +1,19 @@
+schema_version = "1.0.0"
+id = "pixel_shader_toolkit"
+version = "0.3.0"
+name = "Pixel Shader Toolkit"
+tagline = "Non-destructive pixel/palette/dither shader toolkit"
+maintainer = "PPixel"
+type = "add-on"
+blender_version_min = "5.0.0"
+license = ["SPDX:GPL-3.0-or-later"]
+website = "https://example.com/pixel-shader-toolkit"
+tags = ["Material", "Node", "UV"]
+
+[build]
+paths_exclude_pattern = [
+  "__pycache__/",
+  "*.pyc",
+  ".git/",
+  ".gitignore",
+]
